@@ -3,98 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para ti 💛</title>
+    <title>Para mi futura esposa ❤️</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             margin: 0;
-            background-color: #0d0d0d;
+            padding: 10px;
+            background-color: #000000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+        .header-text {
+            text-align: center;
+            margin-bottom: 10px;
+            max-width: 90vw;
         }
         h1 {
-            color: #ffd700;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            text-align: center;
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin: 5px 0;
+            font-weight: bold;
         }
-        p {
+        p.subtitle {
             color: #ffec8b;
             font-size: 1rem;
-            margin-top: 0;
+            margin: 5px 0;
+            font-family: Georgia, serif;
             font-style: italic;
+        }
+        h2.love-text {
+            color: #e9db18;
+            font-size: 1.4rem;
+            margin: 8px 0 15px 0;
+            font-weight: bold;
         }
         canvas {
             background-color: #000000;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
 
-    <h1>¡Una flor amarilla para ti! 💛</h1>
-    <p>Eres una persona super especial ✨</p>
-    <canvas id="flowerCanvas" width="380" height="480"></canvas>
+    <div class="header-text">
+        <h1>¡Una flor amarilla para ti! 💛</h1>
+        <p class="subtitle">Eres una persona super especial</p>
+        <h2 class="love-text">¡Te amo Esposita Andherlins! 💖</h2>
+    </div>
+
+    <canvas id="flowerCanvas" width="400" height="480"></canvas>
 
     <script>
         const canvas = document.getElementById('flowerCanvas');
         const ctx = canvas.getContext('2d');
 
-        function drawFlower() {
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2 - 20;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2 - 30;
 
-            // Tallo
+        function drawTallo() {
             ctx.beginPath();
-            ctx.moveTo(centerX, centerY + 30);
+            ctx.moveTo(centerX, centerY);
             ctx.lineTo(centerX, canvas.height - 20);
             ctx.strokeStyle = '#2e8b57';
-            ctx.lineWidth = 10;
+            ctx.lineWidth = 12;
+            ctx.lineCap = 'round';
             ctx.stroke();
+        }
 
-            // Hojas
-            drawLeaf(centerX, centerY + 120, true);
-            drawLeaf(centerX, centerY + 160, false);
-
-            // Pétalos exteriores
-            const numPetals = 24;
-            for (let i = 0; i < numPetals; i++) {
-                const angle = (i * 2 * Math.PI) / numPetals;
-                drawPetal(centerX, centerY, angle, 110, 25, '#ffd700', '#ffec8b');
-            }
-
-            // Pétalos interiores
-            for (let i = 0; i < numPetals; i++) {
-                const angle = (i * 2 * Math.PI) / numPetals + Math.PI / numPetals;
-                drawPetal(centerX, centerY, angle, 85, 20, '#ffb90f', '#ffd700');
-            }
-
-            // Centro oscuro
+        function drawHoja(x, y, isRight) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(isRight ? 1 : -1, 1);
+            ctx.rotate(Math.PI / 6);
             ctx.beginPath();
-            ctx.arc(centerX, centerY, 45, 0, Math.PI * 2);
-            ctx.fillStyle = '#4a235a';
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(45, -25, 70, 10);
+            ctx.quadraticCurveTo(25, 45, 0, 0);
+            ctx.fillStyle = '#228b22';
             ctx.fill();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = '#8b4513';
-            ctx.stroke();
-
-            // Espiral del centro
-            for (let i = 0; i < 120; i++) {
-                const r = 3.5 * Math.sqrt(i);
-                const theta = i * 137.5 * (Math.PI / 180);
-                const x = centerX + r * Math.cos(theta);
-                const y = centerY + r * Math.sin(theta);
-                ctx.beginPath();
-                ctx.arc(x, y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = '#d2691e';
-                ctx.fill();
-            }
+            ctx.restore();
         }
 
         function drawPetal(cx, cy, angle, length, width, strokeColor, fillColor) {
@@ -108,25 +104,50 @@
             ctx.fillStyle = fillColor;
             ctx.fill();
             ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = 1.5;
+            ctx.lineWidth = 2;
             ctx.stroke();
             ctx.restore();
         }
 
-        function drawLeaf(x, y, isRight) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.scale(isRight ? 1 : -1, 1);
+        function drawCentro() {
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.quadraticCurveTo(40, -20, 60, 10);
-            ctx.quadraticCurveTo(20, 40, 0, 0);
-            ctx.fillStyle = '#228b22';
+            ctx.arc(centerX, centerY, 45, 0, Math.PI * 2);
+            ctx.fillStyle = '#4a235a';
             ctx.fill();
-            ctx.restore();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#8b4513';
+            ctx.stroke();
         }
 
-        drawFlower();
+        // Animación progresiva
+        let step = 0;
+        const numPetals = 24;
+
+        function animate() {
+            if (step === 0) {
+                drawTallo();
+                drawHoja(centerX, centerY + 100, true);
+                drawHoja(centerX, centerY + 160, false);
+                step++;
+                setTimeout(animate, 300);
+            } else if (step <= numPetals) {
+                const i = step - 1;
+                const angle = (i * 15 * Math.PI) / 180;
+                drawPetal(centerX, centerY, angle, 120, 30, '#ffd700', '#ffec8b');
+                step++;
+                setTimeout(animate, 50);
+            } else if (step <= numPetals * 2) {
+                const i = step - numPetals - 1;
+                const angle = ((i * 15 + 7.5) * Math.PI) / 180;
+                drawPetal(centerX, centerY, angle, 90, 25, '#ffb90f', '#ffd700');
+                step++;
+                setTimeout(animate, 50);
+            } else if (step === numPetals * 2 + 1) {
+                drawCentro();
+            }
+        }
+
+        animate();
     </script>
 </body>
 </html>
