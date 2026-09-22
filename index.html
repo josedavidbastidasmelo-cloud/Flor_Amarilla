@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti 💛</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        p {
+            color: #ffec8b;
+            font-size: 1rem;
+            margin-top: 0;
+            font-style: italic;
+        }
+        canvas {
+            background-color: #000000;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¡Una flor amarilla para ti! 💛</h1>
+    <p>Eres una persona super especial ✨</p>
+    <canvas id="flowerCanvas" width="380" height="480"></canvas>
+
+    <script>
+        const canvas = document.getElementById('flowerCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawFlower() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2 - 20;
+
+            // Tallo
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY + 30);
+            ctx.lineTo(centerX, canvas.height - 20);
+            ctx.strokeStyle = '#2e8b57';
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            // Hojas
+            drawLeaf(centerX, centerY + 120, true);
+            drawLeaf(centerX, centerY + 160, false);
+
+            // Pétalos exteriores
+            const numPetals = 24;
+            for (let i = 0; i < numPetals; i++) {
+                const angle = (i * 2 * Math.PI) / numPetals;
+                drawPetal(centerX, centerY, angle, 110, 25, '#ffd700', '#ffec8b');
+            }
+
+            // Pétalos interiores
+            for (let i = 0; i < numPetals; i++) {
+                const angle = (i * 2 * Math.PI) / numPetals + Math.PI / numPetals;
+                drawPetal(centerX, centerY, angle, 85, 20, '#ffb90f', '#ffd700');
+            }
+
+            // Centro oscuro
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 45, 0, Math.PI * 2);
+            ctx.fillStyle = '#4a235a';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#8b4513';
+            ctx.stroke();
+
+            // Espiral del centro
+            for (let i = 0; i < 120; i++) {
+                const r = 3.5 * Math.sqrt(i);
+                const theta = i * 137.5 * (Math.PI / 180);
+                const x = centerX + r * Math.cos(theta);
+                const y = centerY + r * Math.sin(theta);
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#d2691e';
+                ctx.fill();
+            }
+        }
+
+        function drawPetal(cx, cy, angle, length, width, strokeColor, fillColor) {
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(width, length / 2, 0, length);
+            ctx.quadraticCurveTo(-width, length / 2, 0, 0);
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function drawLeaf(x, y, isRight) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(isRight ? 1 : -1, 1);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(40, -20, 60, 10);
+            ctx.quadraticCurveTo(20, 40, 0, 0);
+            ctx.fillStyle = '#228b22';
+            ctx.fill();
+            ctx.restore();
+        }
+
+        drawFlower();
+    </script>
+</body>
+</html>
